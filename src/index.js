@@ -31,7 +31,15 @@ function calculateAll() {
   let total = document.querySelector("#total-value span");
   let subtotals = document.querySelectorAll(".subtotal span");
 
+
+
  // ITERATION 3
+
+ // Declaro la variable totalPrice, donde voy a almacenar el sumatorio de subtotales,
+ // luego con un bucle for voy sumando según el index del producto en la table.
+ // Esto es erróneo ya que al crear y eliminar filas, los index se desbarajuntan,
+ // probablemente tengo que aplicar forEach o algo similar. Cuando haga el repaso.
+
   let totalPrice = 0
 
   for (let i = 0; i < subtotals.length; i++) {
@@ -65,12 +73,21 @@ function removeProduct(event) {
 // ITERATION 5
 
 function createProduct() {
+
+  //declaro una variable para el nuevo elemento al que llamaré luego. Le doy clase product.
 const newProduct = document.createElement("tr");
 newProduct.classList.add("product");
 
+// declaro la variable tBody, que llama al tbody dentro de la tabla id cart (dónde irá la fila).
 const tBody = document.querySelector("#cart tbody");
+
+// ahora a tbody le aplico la función appendChild, que crea un hijo e indico que ese hijo es la variable
+// que cree al inicio de la función
 tBody.appendChild(newProduct);
 
+// creada la fila, formateo su contenido pegando la estructura html e intercalando las llamadas a objetos
+// de javascript "newPPrice" y "newPName", ids que agregué a los input en el tfoot descomentado. Aún queda
+// por unificar el criterio estético de los decimales en los precios de las filas creadas.
 newProduct.innerHTML = `
   <td class="name">
     <span>${document.getElementById("newPName").value}</span>
@@ -83,6 +100,10 @@ newProduct.innerHTML = `
   <td class="action">
     <button class="btn btn-remove">Remove</button>
   </td>`;
+
+// Apaño el problema del "load", ya que al crearse el elemento temporalmente después de los addEventListener, 
+// el botón remove quedaba sordo. Se añade un nuevo addEventListener.
+
 const newRemoveBtn = newProduct.querySelector('.btn-remove');
 newRemoveBtn.addEventListener('click', removeProduct);
 
